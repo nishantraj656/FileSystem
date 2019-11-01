@@ -1,37 +1,12 @@
 
 <div class="sidebar-wrapper">
-  <!-- <div class="logo">
-    <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-      <div class="logo-image-small">
-        <img src="assets/img/angular2-logo.png">
-      </div>
-    </a>
-    <a href="https://www.creative-tim.com" class="simple-text logo-normal">
-      Creative Tim
-    </a>
-  </div> -->
+ 
     <ul class="nav">
-        <!-- <li *ngFor="let menuItem of menuItems" routerLinkActive="active" class="{{menuItem.class}}">
-            <a [routerLink]="[menuItem.path]">
-                <i class="nc-icon {{menuItem.icon}}"></i>
-                <p>{{menuItem.title}}</p>
-            </a>
-        </li> -->
-        <du-menu [menuInfo]="menuItems"></du-menu>
+        <li *ngIf="!menuItems.length" >
+            <p>Wait List is Loading........</p>
+        </li>
+
+        <du-menu *ngIf="menuItems.length" [menuInfo]="menuItems"></du-menu>
     </ul>
 </div>
 
-<!-- It may required -->
-<!--  <!-- <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
-          <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink" >
-            <i class="nc-icon nc-bell-55"></i>
-            <p>
-              <span class="d-lg-none d-md-block">Some Actions</span>
-            </p>
-          </a>
-          <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right">
-            <a ngbDropdownItem href="javascript:void(0)">Action</a>
-            <a ngbDropdownItem href="javascript:void(0)">Another action</a>
-            <a ngbDropdownItem href="javascript:void(0)">Something else here</a>
-          </div>
-        </li> -->

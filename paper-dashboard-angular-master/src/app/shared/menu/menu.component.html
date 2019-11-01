@@ -24,7 +24,7 @@
   </li> -->
 
   <li *ngFor="let menuItem of menuInfo" routerLinkActive="active" >
-    <a  data-toggle="collapse" class="collapse" data-target="#demo" [routerLink]="[menuItem.path]" (click)="_selectItem(item)" >
+    <a  data-toggle="collapse" class="collapse" data-target="#demo" [routerLink]="[menuItem.path]" (click)="_selectItem(menuItem)" >
         <i class="nc-icon {{menuItem.icon}}"></i>
         <p>{{menuItem.title}}</p>
     </a>

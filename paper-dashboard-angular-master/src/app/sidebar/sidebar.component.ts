@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GetDirService } from 'app/get-dir.service';
 
 
 export interface RouteInfo {
@@ -20,157 +21,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/upgrade',       title: 'Upgrade to PRO',    icon:'nc-spaceship',  class: 'active-pro' },
 ];
 
-export const MENU_ITEM = [
-   
-    {
-        path: 'ui',
-        title: 'C Drive',
-        icon: 'nc-credit-card',
-        children: [
-            {
-                path: 'grid',
-                title: 'Bootstrap Grid',
-                icon:'nc-paper'
-            },
-            {
-                path: 'buttons',
-                title: 'Buttons',
-                icon:'nc-paper'
-            },
-            {
-                path: 'notification',
-                title: 'Notification',
-                icon:'nc-paper'
-            },
-            {
-                path: 'tabs',
-                title: 'Tabs',
-                icon:'nc-paper'
-            },
-            {
-                path: 'file-tree',
-                title: 'File Tree',
-                icon:'nc-paper'
-            },
-            {
-                path: 'modals',
-                title: 'Modals',
-                icon:'nc-paper'
-            },
-            {
-                path: 'progress-bar',
-                title: 'ProgressBar',
-                icon:'nc-paper'
-            },
-            /*  {
-                 path: 'loading',
-                 title: 'Loading'
-             }, */
-        ]
-    },
-    {
-        path: 'form',
-        title: 'D Drive',
-        icon: 'nc-credit-card',
-        children: [
-            {
-                path: 'form-inputs',
-                title: 'Form Inputs',
-                icon:'nc-paper'
-            },
-            
-            {
-                icon: 'nc-credit-card',
-                path: 'form-layouts',
-                title: 'Form Layouts', children: [
-                    {
-                        path: 'form-inputs',
-                        title: 'Form Inputs',
-                        icon:'nc-paper'
-                    },
-                    {
-                        path: 'form-layouts',
-                        title: 'Form Layouts',
-                        icon:'nc-paper'
-                    },
-                    {
-                        path: 'file-upload',
-                        title: 'File Upload',
-                        icon:'nc-paper'
-                    },
-                    {
-                        path: 'ng2-select',
-                        title: 'Ng2-Select',
-                        icon:'nc-paper'
-                    }
-                ]
-            },
-            {
-                path: 'file-upload',
-                title: 'File Upload',
-                icon:'nc-paper'
-            },
-            {
-                path: 'ng2-select',
-                title: 'Ng2-Select',
-                icon:'nc-paper'
-            }
-        ]
-    },
-    {
-        path: 'charts',
-        title: 'E Drive',
-        icon: 'nc-credit-card',
-        children: [
-            {
-                path: 'echarts',
-                title: 'Echarts',
-                icon:'nc-paper'
-            }
-        ]
-    },
-    {
-        path: 'table',
-        title: 'F Drive',
-        icon: 'nc-credit-card',
-        children: [
-            {
-                path: 'basic-tables',
-                title: 'Basic Tables',
-                icon:'nc-paper'
-            },
-            {
-                path: 'data-table',
-                title: 'Data Table',
-                icon:'nc-paper'
-            }
-        ]
-    },
-    {
-        path: 'menu-levels',
-        title: 'G Drive',
-        icon: 'nc-credit-card',
-        children: [
-            {
-                icon:'nc-credit-card',
-                path: 'levels1',
-                title: 'Menu Level1',
-                children: [
-                    {
-                        path: 'levels1-1',
-                        title: 'Menu Level1-1',
-                        icon:'nc-paper'
-                    }
-                ]
-            },
-            {
-                path: 'levels2',
-                title: 'Menu Level2',
-                icon:'nc-paper'
-            }
-        ]
-    },
-];
+export const MENU_ITEM = [];
 
 
 @Component({
@@ -181,7 +32,47 @@ export const MENU_ITEM = [
 
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
+    constructor(private _getDir:GetDirService)
+    {}
+    
     ngOnInit() {
         this.menuItems = MENU_ITEM.filter(menuItem => menuItem);
+        let objectArray=[];
+        this._getDir.getDir().subscribe(
+            data=>{
+                console.log(data);
+                this.menuItems = this.nodeJS(data.data,0);
+                console.log(this.menuItems);
+                },
+            error=>{console.log("Eroor : ",error)
+        alert("Error in Loading API Data.")}
+        )
+    }
+
+    nodeJS(data,v)
+    {
+        let node =v;
+        let val = [];
+       console.log("DATA ",data);
+       if(data)
+        data.forEach(element => {
+                let temp = {
+                    path: 'grid',
+                    title: element.name,
+                    icon:'nc-paper',
+                    on:false,
+                    nodeID:(++node)
+                };
+                console.log('Col : '+temp.nodeID,element)
+                if(element.type == "folder")
+                {
+                    if(element.children.length)
+                    temp["children"] =this.nodeJS(element.children,node*10)
+                    temp.icon = "nc-credit-card";
+                }
+                val.push(temp);
+        });
+
+        return val;
     }
 }
