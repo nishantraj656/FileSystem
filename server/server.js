@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParse.json());
 app.use(cors())
 
-const directoryPath = path.join("C:");
+const directoryPath = path.join("C:/");
 
 
 
@@ -32,7 +32,7 @@ var diretoryTreeToObj = (dir, done)=> {
   
     
     fs.readdir(dir, function(err, list) {
-        if (err)
+        if (err) 
             return done(err);
             
         var pending = list.length;
@@ -104,6 +104,65 @@ diretoryTreeToObj(directoryPath, function(err, rese){
     res.status(200).send({"data":rese})
 });
 //    res.status(200).send({"message":"Data recive"})
+})
+
+
+app.post('/dir',function(req,res){
+   var  directoryPath =req.body.path;
+   results=[];
+
+  
+   fs.readdir(directoryPath,function(err,list){
+       if(err){
+           --pending;
+            return 'It is not possible to Scan this Directory.';
+            }
+            var pending = list.length;
+
+        if (!pending)
+            return res.status(200).send({"data":results});
+        console.log(directoryPath)
+       
+
+        list.forEach((file)=>{
+          let  filePath = directoryPath +file;
+           console.log("File : "+file+" : "+filePath);
+            fs.stat(filePath,function(err,stats){
+                if(err){
+                    --pending;
+                return 'It is not possible to Scan this Directory.';}
+
+                if (stats && stats.isDirectory()) 
+                {
+                  
+                    results.push({
+                        name: path.basename(file),
+                        type: 'folder',
+                       children:[]
+                    });
+
+                    if (!--pending)
+                        return res.status(200).send({"data":results});
+                }
+                else 
+                {
+                    results.push({
+                        type: 'file',
+                        name: path.basename(file)
+                    });
+                    if (!--pending)
+                        return res.status(200).send({"data":results});
+                }
+               
+                console.log("pending : "+pending + " F :"+filePath)
+            });
+
+        });
+
+       
+
+   });
+
 })
 
 app.listen(PORT,function(){

@@ -1,12 +1,25 @@
 
 <div class="sidebar-wrapper">
  
+        <!-- <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+               
+        </ul> -->
+    
     <ul class="nav">
         <li *ngIf="!menuItems.length" >
             <p>Wait List is Loading........</p>
         </li>
 
-        <du-menu *ngIf="menuItems.length" [menuInfo]="menuItems"></du-menu>
+        <du-menu *ngIf="menuItems.length" (listClick)="listClick($event)" [menuInfo]="menuItems"></du-menu>
     </ul>
 </div>
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GetDirService } from 'app/get-dir.service';
+import { element } from 'protractor';
 
 
 export interface RouteInfo {
@@ -32,42 +33,119 @@ export const MENU_ITEM = [];
 
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
+    splitArray=[];
+    index=0;
+    childArray=[];
+    nodes=[];
     constructor(private _getDir:GetDirService)
     {}
     
     ngOnInit() {
         this.menuItems = MENU_ITEM.filter(menuItem => menuItem);
         let objectArray=[];
-        this._getDir.getDir().subscribe(
+        this._getDir.getDir("C:/").subscribe(
             data=>{
-                console.log(data);
-                this.menuItems = this.nodeJS(data.data,0);
-                console.log(this.menuItems);
+              ;
+                this.menuItems = this.nodeJS(data.data,0,"C:/");
+               
                 },
             error=>{console.log("Eroor : ",error)
         alert("Error in Loading API Data.")}
         )
     }
 
-    nodeJS(data,v)
+    listClick(event)
     {
-        let node =v;
+        this.index =0;
+        this.nodes = event.nodeID.split('-')
+        console.log("Clicked",event)
+        if(event.on)
+        {
+            this.childArray=[];
+            this.menuItems = this.nodeSetChild(this.menuItems,this.nodes[++this.index]);
+            // let nodes = Array.from(event.nodeID)
+            
+            // console.log("New ",this.menuItems);
+            // console.log(this.nodes);
+            console.log(event)
+        }
+        else
+        {
+            // no call
+            console.log("Event ",event)
+            this._getDir.getDir(event.path).subscribe(
+                data=>{
+                    
+                   
+                    this.childArray=  this.nodeJS(data.data,event.nodeID,event.path+"/");
+                    // this.splitArray =event.path.split('/');
+                    
+                   this.menuItems = this.nodeSetChild(this.menuItems,this.nodes[++this.index]);
+                    // let nodes = Array.from(event.nodeID)
+                    // console.log("New ",this.menuItems);
+                    // console.log(nodes);
+                    // let index=0;
+                    // let l = nodes.length;
+                    
+                    // nodes.forEach(element=>{
+                    //     this.menuItems    
+                    // })
+                   
+                  
+                  
+
+                    },
+                error=>{console.log("Eroor : ",error)
+            alert("Error in Loading API Data.")}
+            )
+        }
+    }
+
+    nodeSetChild(menuItems,match)
+    {
+       let temp = []; 
+
+       console.log("Matched : "+this.nodes.length+" "+this.index);
+       menuItems.forEach(element => {
+           let t =element.nodeID.split('-')
+            if(t[this.index] == match)
+            {
+                console.log("Matched yes : ",element.on);
+                if(this.index == this.nodes.length-1)
+                    element.on = !element.on 
+                console.log("Matched yes : ",element.on);
+                if(this.childArray.length !=0 && this.index == this.nodes.length-1)
+                    element.children = this.childArray
+                else
+                element.children =this.nodeSetChild(element.children,this.nodes[++this.index])
+                console.log(element)
+            }
+            temp.push(element);
+        });
+        console.log("Matched : ",temp);
+        return temp;
+    }
+
+    nodeJS(data,v,base)
+    {
+        let node =1;
         let val = [];
-       console.log("DATA ",data);
+    //    console.log("DATA ",data);
+     
        if(data)
         data.forEach(element => {
                 let temp = {
-                    path: 'grid',
+                    path:base+element.name+'/' ,
                     title: element.name,
                     icon:'nc-paper',
                     on:false,
-                    nodeID:(++node)
+                    nodeID:v+'-'+(++node)
                 };
-                console.log('Col : '+temp.nodeID,element)
+                // console.log('Col : '+temp.nodeID,element)
                 if(element.type == "folder")
                 {
                     if(element.children.length)
-                    temp["children"] =this.nodeJS(element.children,node*10)
+                    temp["children"] =this.nodeJS(element.children,v,element.path+'/')
                     temp.icon = "nc-credit-card";
                 }
                 val.push(temp);

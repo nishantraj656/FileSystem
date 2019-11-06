@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { collapse } from './collapse-animate';
 import { menuService } from 'app/services/menu.service';
 // import { GlobalService } from '../../services/global.service';
@@ -11,7 +11,8 @@ import { menuService } from 'app/services/menu.service';
 })
 export class MenuComponent implements OnInit   {
   @Input() menuInfo: any;
-  show=false;
+  @Output() listClick = new EventEmitter<any>()
+  
   constructor(private _menu:menuService) {
 
    }
@@ -21,6 +22,7 @@ export class MenuComponent implements OnInit   {
     this._menu.putSidebarJson();
     //  console.log("VAlue of v : ",v);
    }
+
    
   private isToggleOn(item) {
     // menuItem.children && menuItem.toggle =='init'
@@ -28,11 +30,12 @@ export class MenuComponent implements OnInit   {
   }
 
   private _selectItem(item) {
-    // //this._globalService._isActived(item);
-    // this._globalService.dataBusChanged('isActived', item);
-    this.show = !this.show;
-    // this._menu.selectItem(item,this.menuInfo);
-
-    console.log("Item click : ",item);
+    console.log("Clickehhfhgd")
+    this.listClick.emit(item);
+    
   }
+
+  
+
+  
 }

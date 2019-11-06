@@ -23,23 +23,20 @@
     </div>
   </li> -->
 
-  <li *ngFor="let menuItem of menuInfo" routerLinkActive="active" >
-    <a  data-toggle="collapse" class="collapse" data-target="#demo" [routerLink]="[menuItem.path]" (click)="_selectItem(menuItem)" >
+  <li *ngFor="let menuItem of menuInfo"  >
+    <a   (click)="_selectItem(menuItem)" >
         <i class="nc-icon {{menuItem.icon}}"></i>
-        <p>{{menuItem.title}}</p>
-    </a>
-    <!-- <div class="item-children" [@collapse]="menuItem.toggle" *ngIf="menuItem.children">
-      <du-menu [menuInfo]="menuItem.children"></du-menu>
-    </div> -->
-    <!-- <div class="item-children" ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" *ngIf="menuItem.children" class="dropdown-menu dropdown-menu-right">
-      <du-menu [menuInfo]="menuItem.children"></du-menu>
-    </div> -->
-      <ul   class="child menu-item" id="#demo" *ngIf="menuItem.children && show" >
-        <i class="nc-icon {{menuItem.icon}}"></i> <du-menu [menuInfo]="menuItem.children"></du-menu>
+        <p class="text-black2">{{menuItem.title}}</p>
+    </a> 
+    
+      <ul   class="child menu-item"  *ngIf="menuItem.on" >
+        
+        <i class="nc-icon {{menuItem.icon}}"></i> <du-menu  (listClick)="_selectItem($event)" [menuInfo]="menuItem.children"></du-menu>
       </ul>
   </li> 
 
-<!-- <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
+<!-- 
+  <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
           <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink" >
             <i class="nc-icon nc-bell-55"></i>
             <p>
@@ -51,4 +48,17 @@
             <a ngbDropdownItem href="javascript:void(0)">Another action</a>
             <a ngbDropdownItem href="javascript:void(0)">Something else here</a>
           </div>
-        </li>  -->
+        </li>  
+  -->
+
+ <!-- 
+   <div class="item-children" [@collapse]="menuItem.toggle" *ngIf="menuItem.children">
+      <du-menu [menuInfo]="menuItem.children"></du-menu>
+    </div> 
+-->
+
+    <!-- 
+    <div class="item-children" ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" *ngIf="menuItem.children" class="dropdown-menu dropdown-menu-right">
+      <du-menu [menuInfo]="menuItem.children"></du-menu>
+    </div> 
+  -->
