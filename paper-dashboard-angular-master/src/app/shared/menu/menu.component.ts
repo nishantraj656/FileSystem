@@ -35,7 +35,10 @@ export class MenuComponent implements OnInit   {
     
   }
 
-  
+  _clicks(text)
+  {
+    alert("Button"+text+"Clicked");
+  }
 
   
 }

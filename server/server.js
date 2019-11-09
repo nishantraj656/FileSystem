@@ -5,6 +5,7 @@ const os = require('os');
 const path = require('path');
 const {readdirSync}= require('fs');
 const fs =require('fs'); 
+const https = require('https');
 
 
 const PORT = 3000;
@@ -80,6 +81,26 @@ app.get('/addcontact',cors(),function(req,res){
     // res.setHeader('Access-Control-Allow-Credentials', true);
     console.log(req.body);
     res.status(200).send({"message":"Data recive"})
+})
+
+app.get('/lo',cors(),function(req,res){
+    let url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=LOS&types=(cities)&language=en&key=AIzaSyBgYljUf7Goyzt1iRVSqm7QxNcuvraFnjI'
+    https.get(url ,function(response) {
+        var body ='';
+        response.on('data', function(chunk) {
+          body += chunk;
+        });
+    
+        response.on('end', function() {
+          var places = JSON.parse(body);
+        //   var locations = places.results;
+        //   var randLoc = locations[Math.floor(Math.random() * locations.length)];
+    
+          res.json(places);
+        });
+      }).on('error', function(e) {
+        console.log("Got error: " + e.message);
+      });
 })
 
 

@@ -28,6 +28,11 @@
         <i class="nc-icon {{menuItem.icon}}"></i>
         <p class="text-black2">{{menuItem.title}}</p>
     </a> 
+    <div class="row m-1" *ngIf="menuItem.icon != 'nc-credit-card'">
+      <input class="m-1" (click)="_clicks('1')" type="radio" name="bu" value="1"><label>1</label>
+      <input class="m-1" type="radio" name="bu" value="2"><label>2</label>
+      <input class="m-1" type="radio" name="bu" value="3"><label>3</label>
+    </div>
     
       <ul   class="child menu-item"  *ngIf="menuItem.on" >
         
