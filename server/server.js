@@ -84,7 +84,7 @@ app.get('/addcontact',cors(),function(req,res){
 })
 
 app.get('/lo',cors(),function(req,res){
-    let url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=LOS&types=(cities)&language=en&key=AIzaSyBgYljUf7Goyzt1iRVSqm7QxNcuvraFnjI'
+    let url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=LOS&types=(cities)&language=en&key=AIzaSyAC-a6b5_ImWrwMagVt4qifEkMPVoTTWHA'
     https.get(url ,function(response) {
         var body ='';
         response.on('data', function(chunk) {
