@@ -1,13 +1,14 @@
-
 <div class="sidebar-wrapper">
-  
-    <ul class="nav nav-tabs">
-        <li class="nav-item">File Explorer</li>
-        <li class="nav-item">Tab1</li>
-        <li class="nav-item">Tab2</li>
-    </ul>
 
-    <!-- <ul class="nav nav-tabs">
+  <nav class="navbar nav-tabs">
+    <ul class="nav">
+      <li class="nav-item" style="display: inline;">File Explorer</li>
+      <li class="nav-item" style="display: inline;margin-left:5px;">Tab1</li>
+      <li class="nav-item" style="display: inline;margin-left:5px;">Tab2</li>
+    </ul>
+  </nav>
+
+  <!-- <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link active" href="#">Active</a>
       </li>
@@ -19,13 +20,12 @@
       </li>
       
     </ul> -->
-    
-    <ul class="nav">
-        <li *ngIf="!menuItems.length" >
-            <p>Wait List is Loading........</p>
-        </li>
 
-        <du-menu *ngIf="menuItems.length" (listClick)="listClick($event)" [menuInfo]="menuItems"></du-menu>
-    </ul>
+  <ul class="nav">
+    <li *ngIf="!menuItems.length">
+      <p>Wait List is Loading........</p>
+    </li>
+
+    <du-menu *ngIf="menuItems.length" (listClick)="listClick($event)" [menuInfo]="menuItems" (radioClicked)="radioClicked($event);" (fileNameClicked)="fileNameClicked($event);"></du-menu>
+  </ul>
 </div>
-

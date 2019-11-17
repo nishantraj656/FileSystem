@@ -8,5 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLayoutComponent implements OnInit {
 
+
   ngOnInit() { }
+  clickedVal = "";
+  fileContent="";
+
+  radioClicked(ev) {
+    this.clickedVal = "Option "+ ev +" Selected";
+  }
+  fileNameClicked(ev){
+    
+  }
 }

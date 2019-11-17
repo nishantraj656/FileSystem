@@ -1,5 +1,4 @@
-
-  <!-- <li *ngFor="let item of menuInfo;let i = index" class="menu-item" [ngClass]="{'item-toggle-on':item.toggle === 'on'}">
+<!-- <li *ngFor="let item of menuInfo;let i = index" class="menu-item" [ngClass]="{'item-toggle-on':item.toggle === 'on'}">
     <a [routerLink]="[item.routerLink.join('/')]" *ngIf="item.routerLink" routerLinkActive="active" class="menu-link" (click)="_selectItem(item)">
       <div class="placeholder">
         <i class="fa fa-{{item.icon}} fa-fw"></i>
@@ -23,22 +22,25 @@
     </div>
   </li> -->
 
-  <li *ngFor="let menuItem of menuInfo"  >
-    <a   (click)="_selectItem(menuItem)" >
-        <i class="nc-icon {{menuItem.icon}}"></i>
-        <p class="text-black2">{{menuItem.title}}</p>
-    </a> 
-    <div class="row m-1" *ngIf="menuItem.icon != 'nc-credit-card'">
-      <input class="m-1" (click)="_clicks('1')" type="radio" name="bu" value="1"><label>1</label>
-      <input class="m-1" type="radio" name="bu" value="2"><label>2</label>
-      <input class="m-1" type="radio" name="bu" value="3"><label>3</label>
-    </div>
-    
-      <ul   class="child menu-item"  *ngIf="menuItem.on" >
-        
-        <i class="nc-icon {{menuItem.icon}}"></i> <du-menu  (listClick)="_selectItem($event)" [menuInfo]="menuItem.children"></du-menu>
-      </ul>
-  </li> 
+<li *ngFor="let menuItem of menuInfo">
+  <a (click)="_selectItem(menuItem)">
+    <i class="nc-icon {{menuItem.icon}}"></i>
+    <p class="text-black2">{{menuItem.title}}</p>
+  </a>
+  <div class="row m-1" *ngIf="menuItem.icon != 'nc-credit-card'">
+    <input class="m-1" (click)="_clicks('1')" type="radio" name="bu" value="1">
+    <label>1</label>
+    <input class="m-1" (click)="_clicks('2')" type="radio" name="bu" value="2">
+    <label>2</label>
+    <input class="m-1" (click)="_clicks('3')" type="radio" name="bu" value="3">
+    <label>3</label>
+  </div>
+
+  <ul class="child menu-item" *ngIf="menuItem.on">
+    <i class="nc-icon {{menuItem.icon}}"></i>
+    <du-menu (listClick)="_selectItem($event)" [menuInfo]="menuItem.children"></du-menu>
+  </ul>
+</li>
 
 <!-- 
   <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
@@ -56,13 +58,13 @@
         </li>  
   -->
 
- <!-- 
+<!-- 
    <div class="item-children" [@collapse]="menuItem.toggle" *ngIf="menuItem.children">
       <du-menu [menuInfo]="menuItem.children"></du-menu>
     </div> 
 -->
 
-    <!-- 
+<!-- 
     <div class="item-children" ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" *ngIf="menuItem.children" class="dropdown-menu dropdown-menu-right">
       <du-menu [menuInfo]="menuItem.children"></du-menu>
     </div> 

@@ -7,38 +7,44 @@ import { menuService } from 'app/services/menu.service';
   selector: 'du-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-   animations: [collapse]
+  animations: [collapse]
 })
-export class MenuComponent implements OnInit   {
+export class MenuComponent implements OnInit {
   @Input() menuInfo: any;
-  @Output() listClick = new EventEmitter<any>()
-  
-  constructor(private _menu:menuService) {
+  @Output() listClick = new EventEmitter<any>();
 
-   }
+  @Output() radioClicked = new EventEmitter<any>();
+  @Output() fileNameClicked = new EventEmitter<any>();
 
-   ngOnInit() 
-   { 
+
+  constructor(private _menu: menuService) {
+
+  }
+
+  ngOnInit() {
     this._menu.putSidebarJson();
     //  console.log("VAlue of v : ",v);
-   }
+  }
 
-   
+
   private isToggleOn(item) {
     // menuItem.children && menuItem.toggle =='init'
-   return item.children && item.toggle =='init'  ?  false :  true;
+    return item.children && item.toggle == 'init' ? false : true;
   }
 
   private _selectItem(item) {
     console.log("Clickehhfhgd")
     this.listClick.emit(item);
-    
+
   }
 
-  _clicks(text)
-  {
-    alert("Button"+text+"Clicked");
+  _clicks(text) {
+    this.radioClicked.emit(text);
+    //alert("Button"+text+"Clicked");
   }
 
-  
+  _fileNameClicks(text) {
+    this.fileNameClicked.emit(text);
+  }
+
 }
