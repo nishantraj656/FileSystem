@@ -38,19 +38,52 @@ export class SidebarComponent implements OnInit {
     childArray = [];
     nodes = [];
     constructor(private _getDir: GetDirService) { }
+    currentTab:string = 'file-explorer';
+    loading: boolean = false;
 
     ngOnInit() {
+        this.getMenuItemsTab1();
+    }
+
+    getMenuItemsTab1(){
         this.menuItems = MENU_ITEM.filter(menuItem => menuItem);
         let objectArray = [];
         this._getDir.getDir("/").subscribe(
             data => {
                 this.menuItems = this.nodeJS(data.data,0,"C:/");
+                this.loading = false;
             },
             error => {
                 console.log("Eroor : ", error)
+                this.loading = false;
                 alert("Error in Loading API Data.")
             }
         )
+    }
+
+    getTab1(){
+        this.menuItems = [];
+        this.loading = false;
+    }
+
+    getTab2(){
+        this.menuItems = [];
+        this.loading = false;
+    }
+
+    activateTab(tabName){
+        this.loading = true;
+
+        if(tabName == 'file-explorer'){
+            this.getMenuItemsTab1();
+            this.currentTab = 'file-explorer';
+        } else if(tabName == 'tab1'){
+            this.getTab1();
+            this.currentTab = 'tab1';
+        } else {
+            this.getTab2();
+            this.currentTab = 'tab2';
+        }
     }
 
     listClick(event) {

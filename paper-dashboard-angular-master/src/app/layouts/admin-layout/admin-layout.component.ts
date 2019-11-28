@@ -17,6 +17,6 @@ export class AdminLayoutComponent implements OnInit {
     this.clickedVal = "Option "+ ev +" Selected";
   }
   fileNameClicked(ev){
-    
+    this.fileContent = "Option "+ ev +" Selected";
   }
 }

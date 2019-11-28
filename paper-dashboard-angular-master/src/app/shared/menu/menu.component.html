@@ -25,7 +25,7 @@
 <li *ngFor="let menuItem of menuInfo">
   <a (click)="_selectItem(menuItem)">
     <i class="nc-icon {{menuItem.icon}}"></i>
-    <p class="text-black2">{{menuItem.title}}</p>
+    <p class="text-black2" (click)="_fileNameClicks(menuItem.title)">{{menuItem.title}}</p>
   </a>
   <div class="row m-1" *ngIf="menuItem.icon != 'nc-credit-card'">
     <input class="m-1" (click)="_clicks('1')" type="radio" name="bu" value="1">

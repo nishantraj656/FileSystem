@@ -2,9 +2,9 @@
 
   <nav class="navbar nav-tabs">
     <ul class="nav">
-      <li class="nav-item" style="display: inline;">File Explorer</li>
-      <li class="nav-item" style="display: inline;margin-left:5px;">Tab1</li>
-      <li class="nav-item" style="display: inline;margin-left:5px;">Tab2</li>
+      <li class="nav-item" style="display: inline;" (click)="activateTab('file-explorer')">File Explorer</li>
+      <li class="nav-item" style="display: inline;margin-left:5px;" (click)="activateTab('tab1')">Tab1</li>
+      <li class="nav-item" style="display: inline;margin-left:5px;" (click)="activateTab('tab2')">Tab2</li>
     </ul>
   </nav>
 
@@ -22,7 +22,7 @@
     </ul> -->
 
   <ul class="nav">
-    <li *ngIf="!menuItems.length">
+    <li *ngIf="loading">
       <p>Wait List is Loading........</p>
     </li>
 
